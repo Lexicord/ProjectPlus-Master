@@ -14,15 +14,25 @@ class Note extends FlxSprite
 {
 	public var strumTime:Float = 0;
 
+	public var manualXOffset:Float = 0;
+	public var manualYOffset:Float = 0;
 	public var mustPress:Bool = false;
 	public var noteData:Int = 0;
 	public var canBeHit:Bool = false;
 	public var tooLate:Bool = false;
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
-
+	public var hit:Bool = false;
+	public var rating:String = "sick";
+	public var lastSustainPiece = false;
+	public var defaultX:Float = 0;
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
+	public var rawNoteData:Int = 0; // for charting shit and thats it LOL
+	public var holdParent:Bool=false;
+	public var noteType:Int = 0;
+	public var beingCharted:Bool=false;
+	public var initialPos:Float = 0;
 
 	public var noteScore:Float = 1;
 
@@ -32,10 +42,12 @@ class Note extends FlxSprite
 	public static var BLUE_NOTE:Int = 1;
 	public static var RED_NOTE:Int = 3;
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?initialPos:Float=0, ?beingCharted=false)
 	{
 		super();
 
+		this.initialPos=initialPos;
+		this.beingCharted=beingCharted;
 		if (prevNote == null)
 			prevNote = this;
 
@@ -102,66 +114,52 @@ class Note extends FlxSprite
 				antialiasing = true;
 		}
 
-		switch (noteData)
-		{
-			case 0:
-				x += swagWidth * 0;
-				animation.play('purpleScroll');
-			case 1:
-				x += swagWidth * 1;
-				animation.play('blueScroll');
-			case 2:
-				x += swagWidth * 2;
-				animation.play('greenScroll');
-			case 3:
-				x += swagWidth * 3;
-				animation.play('redScroll');
-		}
+		var colors = ["purple","blue","green","red"];
+
+		x += swagWidth * noteData;
+		animation.play('${colors[noteData]}Scroll');
 
 		// trace(prevNote);
 
 		if (isSustainNote && prevNote != null)
 		{
+			prevNote.holdParent=true;
 			noteScore * 0.2;
 			alpha = 0.6;
 
-			x += width / 2;
+			//var off = -width;
+			var off = -width/4;
+			//x+=width/2;
+			lastSustainPiece=true;
 
-			switch (noteData)
-			{
-				case 2:
-					animation.play('greenholdend');
-				case 3:
-					animation.play('redholdend');
-				case 1:
-					animation.play('blueholdend');
-				case 0:
-					animation.play('purpleholdend');
-			}
-
+			manualXOffset = width/2;
+			animation.play('${colors[noteData]}holdend');
 			updateHitbox();
 
-			x -= width / 2;
+			if(PlayState.currentPState.currentOptions.downScroll){
+				flipY=true;
+			}
 
+			//off -= width / 2;
+			//x -= width / 2;
+
+			manualXOffset -= width/ 2;
 			if (PlayState.curStage.startsWith('school'))
-				x += 30;
+				manualXOffset += 30;
+			else
+				manualXOffset += 2;
 
 			if (prevNote.isSustainNote)
 			{
-				switch (prevNote.noteData)
-				{
-					case 0:
-						prevNote.animation.play('purplehold');
-					case 1:
-						prevNote.animation.play('bluehold');
-					case 2:
-						prevNote.animation.play('greenhold');
-					case 3:
-						prevNote.animation.play('redhold');
-				}
-
-				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
+				prevNote.lastSustainPiece=false;
+				prevNote.animation.play('${colors[noteData]}hold');
+				if(!beingCharted)
+					prevNote.scale.y *= ((.45*Conductor.stepCrochet*PlayState.getFNFSpeed(strumTime))+1)/prevNote.height;
 				prevNote.updateHitbox();
+
+				prevNote.offset.y += -prevNote.offset.y;
+
+				offset.y += -offset.y;
 				// prevNote.setGraphicSize();
 			}
 		}
@@ -173,22 +171,30 @@ class Note extends FlxSprite
 
 		if (mustPress)
 		{
-			// The * 0.5 is so that it's easier to hit them too late, instead of too early
-			if (strumTime > Conductor.songPosition - Conductor.safeZoneOffset
-				&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 0.5))
-				canBeHit = true;
-			else
-				canBeHit = false;
+			if(isSustainNote){
+				if (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * 1.5)
+					&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * .25))
+					canBeHit = true;
+				else
+					canBeHit = false;
+			}else{
+				if (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * 1.5)
+					&& strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * 1))
+					canBeHit = true;
+				else
+					canBeHit = false;
+			}
+
+
+
 
 			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
 				tooLate = true;
 		}
 		else
 		{
-			canBeHit = false;
-
 			if (strumTime <= Conductor.songPosition)
-				wasGoodHit = true;
+				canBeHit = true;
 		}
 
 		if (tooLate)
