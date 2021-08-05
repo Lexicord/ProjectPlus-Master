@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="icons.png">
+	<!-- Created with Adobe Animate version 21.0.2.37893 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="bf normal0000" x="0" y="0" width="150" height="150"/>
+	<SubTexture name="bf losing0000" x="150" y="0" width="150" height="150"/>
+	<SubTexture name="gf normal0000" x="300" y="0" width="150" height="150"/>
+	<SubTexture name="gf losing0000" x="300" y="0" width="150" height="150"/>
+	<SubTexture name="dad normal0000" x="450" y="0" width="150" height="150"/>
+	<SubTexture name="dad losing0000" x="450" y="0" width="150" height="150"/>
+	<SubTexture name="spooky normal0000" x="600" y="0" width="150" height="150"/>
+	<SubTexture name="spooky losing0000" x="750" y="0" width="150" height="150"/>
+	<SubTexture name="monster normal0000" x="900" y="0" width="150" height="150"/>
+	<SubTexture name="monster losing0000" x="1050" y="0" width="150" height="150"/>
+	<SubTexture name="monster-christmas normal0000" x="900" y="0" width="150" height="150"/>
+	<SubTexture name="monster-christmas losing0000" x="1050" y="0" width="150" height="150"/>
+	<SubTexture name="pico normal0000" x="1200" y="0" width="150" height="150"/>
+	<SubTexture name="pico losing0000" x="1350" y="0" width="150" height="150"/>
+	<SubTexture name="mom normal0000" x="0" y="150" width="150" height="150"/>
+	<SubTexture name="mom losing0000" x="150" y="150" width="150" height="150"/>
+	<SubTexture name="mom-car normal0000" x="0" y="150" width="150" height="150"/>
+	<SubTexture name="mom-car losing0000" x="150" y="150" width="150" height="150"/>
+	<SubTexture name="parents-christmas normal0000" x="300" y="150" width="150" height="150"/>
+	<SubTexture name="parents-christmas losing0000" x="300" y="150" width="150" height="150"/>
+	<SubTexture name="bf-pixel normal0000" x="450" y="150" width="150" height="150"/>
+	<SubTexture name="bf-pixel losing0000" x="450" y="150" width="150" height="150"/>
+	<SubTexture name="senpai normal0000" x="600" y="150" width="150" height="150"/>
+	<SubTexture name="senpai losing0000" x="600" y="150" width="150" height="150"/>
+	<SubTexture name="senpai-angry normal0000" x="600" y="150" width="150" height="150"/>
+	<SubTexture name="senpai-angry losing0000" x="600" y="150" width="150" height="150"/>
+	<SubTexture name="spirit normal0000" x="750" y="150" width="150" height="150"/>
+	<SubTexture name="spirit losing0000" x="750" y="150" width="150" height="150"/>
+	<SubTexture name="tankman normal0000" x="900" y="150" width="150" height="150"/>
+	<SubTexture name="tankman losing0000" x="1050" y="150" width="150" height="150"/>
+	<SubTexture name="face normal0000" x="1200" y="150" width="150" height="150"/>
+	<SubTexture name="face losing0000" x="1350" y="150" width="150" height="150"/>
+	<SubTexture name="bf-old normal10000" x="0" y="300" width="150" height="150"/>
+	<SubTexture name="bf-old losing20000" x="150" y="300" width="150" height="150"/>
+</TextureAtlas>
