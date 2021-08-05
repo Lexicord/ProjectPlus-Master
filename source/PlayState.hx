@@ -737,12 +737,9 @@ class PlayState extends MusicBeatState
 							});
 						});
 					});
-				case 'senpai':
-					schoolIntro(doof);
-				case 'roses':
-					FlxG.sound.play(Paths.sound('ANGRY'));
-					schoolIntro(doof);
-				case 'thorns':
+				case 'senpai' | 'roses' | 'thorns':
+					if (SONG.song.toLowerCase() == 'roses')
+						FlxG.sound.play(Paths.sound('ANGRY'));
 					schoolIntro(doof);
 				default:
 					startCountdown();
@@ -1404,6 +1401,8 @@ class PlayState extends MusicBeatState
 				// trace(PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection);
 			}
 
+			camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+
 			if (camFollow.x != dad.getMidpoint().x + 150 && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 			{
 				switch (dad.curCharacter)
@@ -1414,9 +1413,6 @@ class PlayState extends MusicBeatState
 					case 'senpai' | 'senpai-angry':
 						camFollow.x = dad.getMidpoint().x - 100;
 						camFollow.y = dad.getMidpoint().y - 430;
-					default:
-						camFollow.x = dad.getMidpoint().x + 150;
-						camFollow.y = dad.getMidpoint().y - 100;
 				}
 
 				if (SONG.song.toLowerCase() == 'tutorial')
